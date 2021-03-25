@@ -1,0 +1,7 @@
+library(shiny)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+source("our_ui.R")
+source("our_server.R")
+shinyApp(ui = ui, server = server)

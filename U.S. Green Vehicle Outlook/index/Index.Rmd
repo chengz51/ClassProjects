@@ -1,0 +1,75 @@
+---
+title: "index"
+output: html_document
+---
+```{r echo=FALSE, include=FALSE}
+source("scripts/population_function.R")
+source("scripts/line_function.R")
+source("scripts/summary_table.R")
+source("scripts/gas_function.R")
+source("scripts/summary_function.R")
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(knitr)
+library(tidyr)
+library(leaflet)
+```
+
+#### Introduction 
+The number of green vehicles in use has been rising in recent years. Electricity, as one of the green energy, has been discussed widely among the world. Therefore, we wanted to deeper analyze advantages of the green cars on both environment and economy. In this report, we display three data charts-EV population line chart, greenhouse gas emssion point chart and gasoline price line chart. We use EV population and greenhouse gas emssion to analyze the impact on the environment and using the gasoline price for the economic impact. 
+we found our data on [US department of Energy](https://www.energy.gov/) and [Environmental Protection Agency](https://www.epa.gov/), which both are government gathered datasets .
+
+#### Summary Table of EV population , Greenhouse Emission, and Gasoline Price
+This table provided some basic information on EV related variable. Therefore, we're able to analysis the correlation between EV population and greenhouse gas emission as well as gasoline price. 
+
+```{r summary table, echo=FALSE}
+kable(summary9414,
+      row.names=FALSE,
+      col.names=col_names)
+```
+
+Based on the summary table, we can conclude that with the increase of gasoline price, we have an obvious increasing trend of increasing in number of EV. However, we need further analysis on the GHG emission and the number of EV by years.
+
+#### Summary Information
+```{r summary_information, echo=FALSE, include=FALSE}
+summary <- get_summary_info(gas_prices)
+```
+The peak year for gasoline was in **`r summary$peak_year`**, when the price for gas was **`r summary$peak_price`**. Being that the prices peaked because of increased demand, what would happen if the demand increased again? Since gasoline is a finite resource, the demand is surely going to increase again as the supply dries up more and more. This was only 8-9 years ago. The prices from 2016-2018 were **`r summary$three_recent_prices`**, which indicate an upward trend. Although it's around the average, **$`r summary$average_price`**, it's not feasible that prices will go down to what they were in **`r summary$lowest_year`**. Considering that gasoline contributes to a good portion of CO2 emissions, it'd be in our best interests to transition from gasoline to a fuel like electricity which will be cleaner and more reproducible, which would lower the costs.
+
+
+#### How does the population of EV grow over the years in US? 
+
+following chart describes the **trend of EV population** as well as the increment of the population each year. 
+
+```{r echo=FALSE}
+population_function(ev_pop_table)
+```
+
+From the line chart above, we observed that the population of EV had been steady 
+increased for the first ten years after it's appearence. However, the development of EV at that time was limited by technology. At the beginning of the 21st century,as the interest in electric and other alternative fuel vehicles has increased, the total amount of the EV had increased rapidly. Improvements in electric vehicle technology stimulated the growth of EV in use. After enjoying success at the beginning of the 20th century, the electric car began to lose its position in the automobile market.Later, Decemenber 2010, The Nissan Leaf was introduced in Japan and the United States, which lead to EV prosperity agian.
+
+##### Reference: 
+[History of the electric vehicle](https://en.wikipedia.org/wiki/History_of_the_electric_vehicle)
+
+
+#### Greenhouse gas emssion in different years
+This chart was intended to show the relationship the **greenhouse gas emssion** in different years. 
+
+```{r echo=FALSE}
+gas_function(df_update)
+```
+
+Based on the graph, 2007's greenhouse gas emssion reaches the **highest amount** and 1991 has the **lowest amount**. As a result, from 1990 - 2017, greenhouse gas emssion increases as the time shifted. 2008-2014, there is a negative relationship between them.
+
+#### Annual Gas Prices 1950-2018
+
+```{r line_chart, echo=FALSE}
+line_chart <- line_function(gas_prices)
+line_chart
+```
+
+The line graph above represents the annual gasoline prices in the US from **1950-2018**. The lines are distinguished by the base prices and the prices adjusted for 2018 prices. From the graph above, we can see that the gas prices peaked in **2011** at **$3.99**, while the prices from 2016-2018 have been trending upward as the prices were **2.25, 2.46, and 2.74**. Taking into account that gasoline is a finite resource; the supply is going to dry up eventually, which will drive up the demand. This is what happened in 2011-2012 when the demand reached an all time high; so, it will only get worse as the oil supply decreases more and more. Even if the prices stagnate around **2.63**, which is the average price over the years; it'd in our best interests to transition from a gasoline oriented economy to a more clean and reproducible fuel like electricity considering prices will never go down below what it was in **1998**. Electric vehicles would be a better alternative.
+
+
+
